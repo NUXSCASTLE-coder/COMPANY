@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Company - Building the Future of Technology">
+    <title>Company | Future Tech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050507;
+            --text-color: #e0e0e0;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --card-hover-bg: rgba(255, 255, 255, 0.07);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Glow */
+        .ambient-light {
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .ambient-light-2 {
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            background: rgba(5, 5, 7, 0.7);
+            z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            opacity: 1;
+        }
+
+        .cta-btn {
+            padding: 0.6rem 1.4rem;
+            background: var(--primary-gradient);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            padding-top: 5rem;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            max-width: 900px;
+        }
+
+        .gradient-text {
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .secondary-btn {
+            padding: 0.8rem 1.8rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            background: var(--card-hover-bg);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* Features/Grid Section */
+        .features {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--card-hover-bg);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.3);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: #a855f7;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 5%;
+            margin-top: 5rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero {
+                padding-top: 8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-light"></div>
+    <div class="ambient-light-2"></div>
+
+    <nav>
+        <div class="logo">COMPANY</div>
+        <ul class="nav-links">
+            <li><a href="#products">Products</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <a href="#" class="cta-btn">Get Started</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Building the <span class="gradient-text">Future</span> of Technology</h1>
+        <p>Experience the next generation of digital innovation. Seamless, powerful, and beautifully designed for the modern web.</p>
+        <div class="hero-btns">
+            <a href="#" class="cta-btn" style="padding: 0.8rem 2rem;">Start Free Trial</a>
+            <a href="#" class="secondary-btn">Learn More</a>
+        </div>
+    </section>
+
+    <section class="features" id="products">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="icon-box">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Optimized for speed and performance. Our architecture ensures your applications load instantly, every time.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">🛡️</div>
+                <h3>Secure by Default</h3>
+                <p>Enterprise-grade security built into the core. Rest easy knowing your data and privacy are protected.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">✨</div>
+                <h3>Premium Design</h3>
+                <p>Crafted with an obsession for detail. Stunning visuals that captivate users and elevate your brand.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Company Inc. All rights reserved.</p>
+        <p>Built with <span style="color: #6366f1;">♥</span> for the future.</p>
+    </footer>
+</body>
+</html>
