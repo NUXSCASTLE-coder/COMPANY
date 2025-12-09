@@ -15,7 +15,13 @@ const port = 3000;
 let privateKey;
 if (process.env.PRIVATE_KEY) {
     // Cloud deployment: key is in environment variable
+    // Support both raw and base64-encoded keys
     privateKey = process.env.PRIVATE_KEY;
+
+    // If it's base64 encoded (doesn't start with -----BEGIN), decode it
+    if (!privateKey.startsWith('-----BEGIN')) {
+        privateKey = Buffer.from(privateKey, 'base64').toString('utf8');
+    }
 } else {
     // Local development: read from file
     const privateKeyPath = path.join(__dirname, process.env.PRIVATE_KEY_PATH || 'private-key.pem');
