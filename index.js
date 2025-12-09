@@ -11,9 +11,16 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-// Read Private Key
-const privateKeyPath = path.join(__dirname, process.env.PRIVATE_KEY_PATH || 'private-key.pem');
-const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+// Read Private Key (from environment or file)
+let privateKey;
+if (process.env.PRIVATE_KEY) {
+    // Cloud deployment: key is in environment variable
+    privateKey = process.env.PRIVATE_KEY;
+} else {
+    // Local development: read from file
+    const privateKeyPath = path.join(__dirname, process.env.PRIVATE_KEY_PATH || 'private-key.pem');
+    privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+}
 const appId = process.env.APP_ID;
 
 // Middleware to parse JSON payloads
