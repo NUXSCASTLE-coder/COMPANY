@@ -369,7 +369,7 @@
             const issueBody = `**Company:** ${companyName}\\n**Email:** ${email}\\n\\n${message || 'No additional information provided.'}`;
 
             try {
-                const response = await fetch('https://api.github.com/repos/NUXSCASTLE-coder/COMPANY/issues', {
+                const response = await fetch('https://nuxscastle-bot.onrender.com/signup', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/vnd.github.v3+json',
