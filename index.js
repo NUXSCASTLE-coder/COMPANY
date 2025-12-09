@@ -61,6 +61,52 @@ app.post('/webhook', async (req, res) => {
     res.status(200).send('Webhook received');
 });
 
+// Signup Form Handler
+app.post('/signup', async (req, res) => {
+    // Enable CORS for browser requests
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    const { companyName, email, message } = req.body;
+
+    console.log(`Signup received: ${companyName} (${email})`);
+
+    try {
+        // Create issue with signup info
+        const token = await getAccessToken(98615852); // Your installation ID
+
+        const issueBody = `**Company:** ${companyName}\n**Email:** ${email}\n\n${message || 'No additional information provided.'}`;
+
+        await axios.post(
+            'https://api.github.com/repos/NUXSCASTLE-coder/COMPANY/issues',
+            {
+                title: `[Signup] ${companyName}`,
+                body: issueBody,
+                labels: ['signup']
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            }
+        );
+
+        console.log(`Created signup issue for ${companyName}`);
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.error('Signup error:', error.message);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Handle OPTIONS for CORS
+app.options('/signup', (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).send();
+});
+
 // Helper: Get Installation Token (Reused logic)
 function generateJwt() {
     return jwt.sign({}, privateKey, {
