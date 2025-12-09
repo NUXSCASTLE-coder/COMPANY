@@ -332,279 +332,77 @@
                 <div class="icon-box">✨</div>
                 <h3>Premium Design</h3>
                 <p>Crafted with an obsession for detail. Stunning visuals that captivate users and elevate your brand.
-                    margin-bottom: 1.5rem;
-                    letter-spacing: -0.03em;
-                    max-width: 900px;
-                    }
+                </p>
+            </div>
+        </div>
+    </section>
 
-                    .gradient-text {
-                    background: var(--secondary-gradient);
-                    background-clip: text;
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    }
+    <!-- Email Signup Section -->
+    <section class="signup-section" style="padding: 4rem 2rem; text-align: center;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Join the Global Idea Grid</h2>
+        <p style="color: #a0a0a0; max-width: 600px; margin: 0 auto 2rem;">
+            Be part of the future. Submit your company information to join our network.
+        </p>
+        <form id="signupForm" style="max-width: 500px; margin: 0 auto;">
+            <input type="text" id="companyName" placeholder="Company Name" required
+                style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 1rem;">
+            <input type="email" id="email" placeholder="Email Address" required
+                style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 1rem;">
+            <textarea id="message" placeholder="Tell us about your company (optional)" rows="4"
+                style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 1rem; resize: vertical;"></textarea>
+            <button type="submit" class="cta-btn" style="width: 100%; padding: 1rem 2rem; font-size: 1.1rem;">
+                Submit Application
+            </button>
+        </form>
+        <p id="statusMessage" style="margin-top: 1rem; color: #10b981; display: none;"></p>
+    </section>
 
-                    .hero p {
-                    font-size: 1.2rem;
-                    color: #a0a0a0;
-                    max-width: 600px;
-                    margin-bottom: 2.5rem;
-                    font-weight: 300;
-                    }
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-                    .hero-btns {
-                    display: flex;
-                    gap: 1.5rem;
-                    }
+            const companyName = document.getElementById('companyName').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const statusMsg = document.getElementById('statusMessage');
 
-                    .secondary-btn {
-                    padding: 0.8rem 1.8rem;
-                    background: var(--glass-bg);
-                    border: 1px solid var(--glass-border);
-                    border-radius: 50px;
-                    color: white;
-                    text-decoration: none;
-                    font-weight: 600;
-                    transition: all 0.3s ease;
-                    }
+            const issueBody = `**Company:** ${companyName}\\n**Email:** ${email}\\n\\n${message || 'No additional information provided.'}`;
 
-                    .secondary-btn:hover {
-                    background: var(--card-hover-bg);
-                    border-color: rgba(255, 255, 255, 0.2);
-                    }
+            try {
+                const response = await fetch('https://api.github.com/repos/NUXSCASTLE-coder/COMPANY/issues', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: `[Signup] ${companyName}`,
+                        body: issueBody,
+                        labels: ['signup']
+                    })
+                });
 
-                    /* Features/Grid Section */
-                    .features {
-                    padding: 5rem 5%;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    }
+                if (response.ok) {
+                    statusMsg.textContent = '✅ Thank you! Your application has been submitted.';
+                    statusMsg.style.display = 'block';
+                    document.getElementById('signupForm').reset();
+                } else {
+                    statusMsg.textContent = '❌ Error submitting. Please try again or email us directly.';
+                    statusMsg.style.color = '#ef4444';
+                    statusMsg.style.display = 'block';
+                }
+            } catch (error) {
+                statusMsg.textContent = '❌ Network error. Please check your connection.';
+                statusMsg.style.color = '#ef4444';
+                statusMsg.style.display = 'block';
+            }
+        });
+    </script>
 
-                    .section-title {
-                    text-align: center;
-                    font-size: 2.5rem;
-                    margin-bottom: 4rem;
-                    }
-
-                    .grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 2rem;
-                    }
-
-                    .card {
-                    background: var(--glass-bg);
-                    border: 1px solid var(--glass-border);
-                    padding: 2.5rem;
-                    border-radius: 20px;
-                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    position: relative;
-                    overflow: hidden;
-                    }
-
-                    .card:hover {
-                    transform: translateY(-8px);
-                    background: var(--card-hover-bg);
-                    border-color: rgba(99, 102, 241, 0.3);
-                    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
-                    }
-
-                    .card::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background: var(--primary-gradient);
-                    transform: scaleX(0);
-                    transform-origin: left;
-                    transition: transform 0.4s ease;
-                    }
-
-                    .card:hover::before {
-                    transform: scaleX(1);
-                    }
-
-                    .card h3 {
-                    font-size: 1.5rem;
-                    margin-bottom: 1rem;
-                    font-weight: 600;
-                    }
-
-                    .card p {
-                    color: #a0a0a0;
-                    font-size: 0.95rem;
-                    line-height: 1.7;
-                    }
-
-                    .icon-box {
-                    width: 50px;
-                    height: 50px;
-                    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
-                    border-radius: 12px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin-bottom: 1.5rem;
-                    color: #a855f7;
-                    font-size: 1.2rem;
-                    }
-
-                    /* Footer */
-                    footer {
-                    border-top: 1px solid var(--glass-border);
-                    padding: 4rem 5%;
-                    margin-top: 5rem;
-                    text-align: center;
-                    color: #666;
-                    font-size: 0.9rem;
-                    }
-
-                    footer p {
-                    margin-bottom: 1rem;
-                    }
-
-                    /* Responsive */
-                    @media (max-width: 768px) {
-                    h1 {
-                    font-size: 3rem;
-                    }
-
-                    .nav-links {
-                    display: none;
-                    }
-
-                    .hero {
-                    padding-top: 8rem;
-                    }
-                    }
-                    </style>
-                    </head>
-
-                    <body>
-                        <div class="ambient-light"></div>
-                        <div class="ambient-light-2"></div>
-
-                        <nav>
-                            <div class="logo">COMPANY</div>
-                            <ul class="nav-links">
-                                <li><a href="#products">Products</a></li>
-                                <li><a href="#solutions">Solutions</a></li>
-                                <li><a href="#pricing">Pricing</a></li>
-                                <li><a href="#about">About</a></li>
-                            </ul>
-                            <a href="https://github.com/apps/nuxscastle/installations/new" class="cta-btn">Get
-                                Started</a>
-                        </nav>
-
-                        <section class="hero">
-                            <h1>Building the <span class="gradient-text">Future</span> of Technology</h1>
-                            <p>Experience the next generation of digital innovation. Seamless, powerful, and beautifully
-                                designed for the
-                                modern web.</p>
-                            <div class="hero-btns">
-                                <a href="https://github.com/apps/nuxscastle/installations/new" class="cta-btn"
-                                    style="padding: 0.8rem 2rem;">Start Free Trial</a>
-                                <a href="#" class="secondary-btn">Learn More</a>
-                            </div>
-                        </section>
-
-                        <section class="features" id="products">
-                            <h2 class="section-title">Why Choose Us</h2>
-                            <div class="grid">
-                                <div class="card">
-                                    <div class="icon-box">⚡</div>
-                                    <h3>Lightning Fast</h3>
-                                    <p>Optimized for speed and performance. Our architecture ensures your applications
-                                        load instantly, every
-                                        time.</p>
-                                </div>
-                                <div class="card">
-                                    <div class="icon-box">🛡️</div>
-                                    <h3>Secure by Default</h3>
-                                    <p>Enterprise-grade security built into the core. Rest easy knowing your data and
-                                        privacy are protected.
-                                    </p>
-                                </div>
-                                <div class="card">
-                                    <div class="icon-box">✨</div>
-                                    <h3>Premium Design</h3>
-                                    <p>Crafted with an obsession for detail. Stunning visuals that captivate users and
-                                        elevate your brand.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Email Signup Section -->
-                        <section class="signup-section" style="padding: 4rem 2rem; text-align: center;">
-                            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Join the Global Idea Grid</h2>
-                            <p style="color: #a0a0a0; max-width: 600px; margin: 0 auto 2rem;">
-                                Be part of the future. Submit your company information to join our network.
-                            </p>
-                            <form id="signupForm" style="max-width: 500px; margin: 0 auto;">
-                                <input type="text" id="companyName" placeholder="Company Name" required
-                                    style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 1rem;">
-                                <input type="email" id="email" placeholder="Email Address" required
-                                    style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 1rem;">
-                                <textarea id="message" placeholder="Tell us about your company (optional)" rows="4"
-                                    style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 1rem; resize: vertical;"></textarea>
-                                <button type="submit" class="cta-btn"
-                                    style="width: 100%; padding: 1rem 2rem; font-size: 1.1rem;">
-                                    Submit Application
-                                </button>
-                            </form>
-                            <p id="statusMessage" style="margin-top: 1rem; color: #10b981; display: none;"></p>
-                        </section>
-
-                        <script>
-                            document.getElementById('signupForm').addEventListener('submit', async (e) => {
-                                e.preventDefault();
-
-                                const companyName = document.getElementById('companyName').value;
-                                const email = document.getElementById('email').value;
-                                const message = document.getElementById('message').value;
-                                const statusMsg = document.getElementById('statusMessage');
-
-                                // Create GitHub issue via API
-                                const issueBody = `**Company:** ${companyName}\n**Email:** ${email}\n\n${message || 'No additional information provided.'}`;
-
-                                try {
-                                    const response = await fetch('https://api.github.com/repos/NUXSCASTLE-coder/COMPANY/issues', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Accept': 'application/vnd.github.v3+json',
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            title: `[Signup] ${companyName}`,
-                                            body: issueBody,
-                                            labels: ['signup']
-                                        })
-                                    });
-
-                                    if (response.ok) {
-                                        statusMsg.textContent = '✅ Thank you! Your application has been submitted.';
-                                        statusMsg.style.display = 'block';
-                                        document.getElementById('signupForm').reset();
-                                    } else {
-                                        statusMsg.textContent = '❌ Error submitting. Please try again or email us directly.';
-                                        statusMsg.style.color = '#ef4444';
-                                        statusMsg.style.display = 'block';
-                                    }
-                                } catch (error) {
-                                    statusMsg.textContent = '❌ Network error. Please check your connection.';
-                                    statusMsg.style.color = '#ef4444';
-                                    statusMsg.style.display = 'block';
-                                }
-                            });
-                        </script>
-
-                        <footer>
-                            <p>&copy; 2025 Company Inc. All rights reserved.</p>
-                            <p>Built with <span style="color: #6366f1;">♥</span> for the future.</p>
-                        </footer>
-                    </body>
+    <footer>
+        <p>&copy; 2025 Company Inc. All rights reserved.</p>
+        <p>Built with <span style="color: #6366f1;">♥</span> for the future.</p>
+    </footer>
+</body>
 
 </html>
