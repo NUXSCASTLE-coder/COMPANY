@@ -48,6 +48,11 @@ app.post('/webhook', async (req, res) => {
 
         try {
             await handleNewIssue(installationId, issue);
+
+            // Auto-label if title contains "bug"
+            if (issue.title.toLowerCase().includes('bug')) {
+                await addLabel(installationId, issue, 'bug');
+            }
         } catch (error) {
             console.error('Error handling issue:', error.message);
         }
@@ -99,6 +104,26 @@ async function handleNewIssue(installationId, issue) {
         }
     );
     console.log(`Replied to issue #${issue.number}`);
+}
+
+// Logic: Add Label to Issue
+async function addLabel(installationId, issue, labelName) {
+    const token = await getAccessToken(installationId);
+
+    // Add label to issue
+    const labelsUrl = issue.labels_url.replace('{/name}', '');
+
+    await axios.post(
+        labelsUrl,
+        { labels: [labelName] },
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        }
+    );
+    console.log(`Added label '${labelName}' to issue #${issue.number}`);
 }
 
 // Start Server
